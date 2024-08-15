@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Liste de tous les restaurants</title>
+    <link rel = "stylesheet" th:href="@{/css/configuration_restaurant.css}" />
+</head>
+<body>
+    <h1>Liste de tous les restaurants</h1>
+
+    <div style="display:flex; padding:15px; justify-content:space-between; flex-wrap: wrap">
+        <a th:href="@{/{url}(url=${restaurant.url})}" th:each="restaurant: ${restaurants}" class="link">
+            <div style="display:flex">
+                <div>Restaurant :</div>
+                <div th:text="${restaurant.name}"></div>
+            </div>
+            <div style="display:flex">
+                <div>Couleur du header:</div>
+                <div th:style="'background-color: ' + ${restaurant.color} + '; width: 40px; height: 40px; '"></div>
+            </div>
+            <img th:src="@{${restaurant.image}}" alt="Image du restaurant" width="100px" height="100px">
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Carte du restaurant</title>
+    <link rel = "stylesheet" th:href="@{/css/configuration_restaurant.css}" />
+</head>
+<body style="margin-top: 1em">
+    
+    <a th:href="@{/{url}(url=${restaurant.url})}" class="link">Revenir sur la page d'information du restaurant</a>
+    <div th:style="'background-color: ' + ${restaurant.getComplement().getButton_ajout_menu()} + '; display: flex; align-items:center; gap: 9px; margin-top:1em; padding: 1em'">
+        <p>Menu</p>
+        <span th:text="'(' + ${getMenu.size()} + ')'"></span>
+    </div>
+    <ul th:style="'background-color: ' + ${restaurant.getComplement().getButton_ajout_menu()} + '; padding: 1em'" th:each="menu: ${getMenu}">
+        <li th:text="'Titre du menu  : ' + ${menu.getName()}"></li>
+        <li th:text="'Description du menu  : ' + ${menu.getDescription()}"></li>
+    </ul>
+
+    <div th:style="'background-color: ' + ${restaurant.getComplement().getButton_ajout_plat()} + '; display: flex; align-items:center; gap: 9px; padding:1em'">
+        <p>Plats</p>
+    </div>
+
+    <ul th:each="menu: ${getMenu}" th:style="'background-color: ' + ${restaurant.getComplement().getButton_ajout_plat()} + '; padding: 1em;'">
+        <h2 th:text="${menu.getName()}"></h2>
+        <ul th:each="plat: ${menu.getMenuPlats()}" style="list-style:none">
+            <li><img th:src="${plat.getPlat().getImage()}" alt="Image du restaurant" style="width:200px; height:200px;"></li>
+            <li th:text="'Titre du plat : ' + ${plat.getPlat().getPlatName()}"></li>
+            <li th:text="'Description du plat : ' + ${plat.getPlat().getDescription()}"></li>
+            <li th:text="'Ingrédients du plat : ' + ${plat.getPlat().getIngredients()}"></li>
+            <li th:text="'Prix du plat : ' + ${plat.getPlat().getPrix()}"></li>
+        </br>
+        </ul>
+    </ul>
+</body>

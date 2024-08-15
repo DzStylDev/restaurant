@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Carte du restaurant</title>
+    <link rel = "stylesheet" th:href="@{/css/configuration_restaurant.css}" />
+</head>
+<body style="margin-top: 1em    ">
+    <a th:href="@{/{url}(url=${restaurant.url})}" class="link">Revenir sur la page d'information du restaurant</a>
+    
+    <div th:style="'background-color: ' + ${restaurant.getComplement.getButton_ajout_menu()} + '; display: flex; align-items:center; gap: 9px; margin-top:1em; padding:1em '">
+        <div>A la carte</div>
+    </div>
+<ul th:style="'background-color: ' + ${restaurant.getComplement.getButton_ajout_menu()} + '; padding: 1em;'">
+    <div style="margin: 1em 0">
+        <div>---------------------------------</div>
+        <p style="font-weight:bold">Sodas et eaux</p>
+        <ul>
+            <li th:each="soda_eau: ${getAllSodaEau}" th:text="${soda_eau}"></li>
+        </ul>
+        <div>---------------------------------</div>
+    </div>
+    <div style="margin: 1em 0">
+        <div>---------------------------------</div>
+        <p style="font-weight:bold">Boisson chaudes</p>
+        <ul>
+            <li th:each="boisson_chaude: ${getBoissonChaude}" th:text="${boisson_chaude}"></li>
+        </ul>
+        <div>---------------------------------</div>
+    </div>
+    <div style="margin: 1em 0">
+        <div>---------------------------------</div>
+        <p style="font-weight:bold">Salades</p>
+        <ul>
+            <li th:each="salade: ${getSalades}" th:text="${salade}"></li>
+        </ul>
+        <div>---------------------------------</div>
+    </div>
+    <div>
+        <div>---------------------------------</div>
+        <p style="font-weight:bold">Plats</p>
+        <ul>
+            <li th:each="plats: ${getPlats}" th:text="${plats}"></li>
+        </ul>
+        <div>---------------------------------</div>
+    </div>
+</ul>
+</body>

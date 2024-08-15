@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Page de configuration</title>
+    <link rel = "stylesheet" th:href="@{/css/configuration_restaurant.css}" />
+</head>
+<body>
+    
+    <form th:action="@{/configuration/create}" method="POST" enctype="multipart/form-data" class="form_save_config">
+
+        <label for="name">Nom du restaurant:</label>
+        <input type="name" id="name" name="name"><br><br>
+        
+        <label for="password">Mot de passe du restaurant:</label>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <label for="url">URL du restaurant pour y accéder:</label>
+        <input type="text" id="url" name="url"><br><br>
+        
+        <label for="color">Couleur du header du restaurant:</label>
+        <input type="color" id="color" name="color"><br><br>
+        
+        <label for="image">Image du restaurant:</label>
+        <input type="text" id="image" name="image"><br><br>
+
+        <label for="button_ajout_menu">Couleur du button menu du restaurant:</label>
+        <input type="color" id="button_ajout_menu" name="button_ajout_menu"><br><br>
+        
+        <label for="button_ajout_plat">Couleur du button plat du restaurant:</label>
+        <input type="color" id="button_ajout_plat" name="button_ajout_plat"><br><br>
+
+        <label for="link1">Lien 1 du restaurant:</label>
+        <input type="text" id="link1" name="link1"><br><br>
+        
+        <label for="link2">Lien 2 du restaurant:</label>
+        <input type="text" id="link2" name="link2"><br><br>
+        
+        <input type="submit" value="Créer le restaurant">
+     
+    </form>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Page de configuration du restaurant</title>
+    <link rel = "stylesheet" th:href="@{/css/configuration_restaurant.css}" />
+</head>
+<body>
+    <header th:style="'background-color: ' + ${restaurant.color} + ';padding:16px;border-radius:8px;'">
+        <h1>Configuration actuel de ton restaurant</h1>
+        <a th:href="@{/{url}(url=${restaurant.url})}" style="text-decoration:none; color:mintcream;">Accèder à la page de mon restaurant</a>
+    </header>
+    <form th:action="@{/save_configuration_restaurant/{url}(url=${restaurant.url})}" method="POST" class="form_save_config">
+        <div>
+            <p class="label">Image du restaurant</p>
+            <img th:src="@{${restaurant.image}}" alt="Image du restaurant" width="100px" height="100px">
+        </div>
+        <input type="text" name="restaurant_image" placeholder="insérer l'image">
+
+        <div style="margin-top: 1em">
+            <p class="label">Nom du restaurant:</p>
+            <p th:text="${restaurant.name}"></p>
+            <input type="text" placeholder="Nom du restaurant" name="restaurant_name">
+        </div>
+        <div style="margin-top: 1em">
+            <p class="label">Url pour accèder au site:</p>
+            <p th:text="${restaurant.url}"></p>
+            <input type="text" placeholder="Url du restaurant" name="restaurant_url">
+        </div>
+        
+        <div style="margin-top: 1em">
+            <p class="label">Mot de passe du restaurant:</p>
+            <p th:text="${restaurant.password}"></p>
+            <input type="text" placeholder="Mot de passe du restaurant" name="restaurant_password">
+        </div>
+        <div class="input-restaurant_color">
+            <div>
+                <p class="label">Couleur du restaurant:</p>
+                <p th:text="${restaurant.color}"></p>
+                <input type="color" placeholder="color du restaurant" name="restaurant_color">
+            </div>
+            <div>
+                <p class="label">Couleur du menu ajout:</p>
+                <p th:text="${restaurant.getComplement.getButton_ajout_menu}"></p>
+                <input type="color" placeholder="couleur du button menu" name="button_ajout_menu">
+            </div>
+            <div>
+                <p class="label">Couleur du menu plat:</p>
+                <p th:text="${restaurant.getComplement.getButton_ajout_plat}"></p>
+                <input type="color" placeholder="couleur du button plat" name="button_ajout_plat">
+            </div>
+        </div>
+        <div class="input-restaurant_link">
+            <div>
+                <p class="label">Adresse du restaurant:</p>
+                <p th:text="${restaurant.address}"></p>
+                <input type="text" placeholder="addresse du restaurant" name="restaurant_address">
+            </div>
+            <div>
+                <p class="label">Contact du restaurant:</p>
+                <p th:text="${restaurant.contact}"></p>
+                <input type="text" placeholder="contact du restaurant" name="restaurant_contact">
+            </div>
+            <div>
+                <p class="label">Contact du responsable :</p> 
+                <p th:text="${restaurant.tel}"></p>
+                <input type="text" placeholder="contact du responsable" name="restaurant_tel">
+            </div>
+        </div>
+        </br></br>
+
+        <input type="submit" value="Modifier"> 
+</form>
+
+   <div style="padding: 1em">
+        <p class="label">Liste des liens du restaurants</p>
+        <ul style="
+            display: flex;
+            justify-content: space-between;
+            width: 16%;
+            text-decoration: none;
+            color: mintcream;
+            margin: 1em 0"
+        >
+            <li><a class="link" th:href="${restaurant.getComplement().link1}">Lien 1</a></li>
+            <li><a class="link" th:href="${restaurant.getComplement().link2}">Lien 2</a></li>
+        </ul>
+   </div>
+    
+
+    <div style="display:flex;padding:1em">
+        <div th:style="'background-color: ' + ${restaurant.color} + '; padding: 1em 2em;border-radius:8px;margin: .5em 0'">A la carte</div>
+    </div>
+    
+    <div style="display: flex;">
+        <div style="padding:1em;background: rgba(0, 0, 0, .1); backdrop-filter: blur(5px); margin-left: 5px;">
+            <form th:action="@{/configuration/{url}/deleteItem/{carteId}(url=${restaurant.url}, carteId=${carteId})}" method="POST" class="carte">
+                    <ul>
+                        <div>
+                            <p>Sodas et eaux</p>
+                            <ul th:each="soda_eau: ${getAllSodaEau}" style="display:flex; list-style:none">
+                                <div th:if="${!soda_eau.isEmpty()}"  style="display: flex;">
+                                    <input type="checkbox" th:value="${soda_eau}" name="soda_eau">
+                                    <li th:text="${soda_eau}"></li>
+                                </div>
+                            </ul>
+                        </div>
+                    </ul>
+                    <button type"submit">Supprimer les items de cette catégorie</button>
+            </form>
+            <form th:action="@{/configuration/{url}/addItem/{carteId}(url=${restaurant.url}, carteId=${carteId})}" method="POST" class="carte">
+                <input type="text" placeholder="item" name="soda_eau" class="carte-input">
+                <button type"submit">Ajouter un items à cette catégorie</button>
+            </form>
+        </div>
+
+        <div style="padding: 1em; background: rgba(0, 0, 0, .1); backdrop-filter: blur(5px); margin-left: 5px;">
+            <form th:action="@{/configuration/{url}/deleteItem/{carteId}(url=${restaurant.url}, carteId=${carteId})}" method="POST" class="carte">
+                    <ul>
+                        <div>
+                            <p>Boisson chaudes</p>
+                            <ul th:each="boisson_chaude: ${getBoissonChaude}" style="display:flex; list-style:none">
+                                <div th:if="${!boisson_chaude.isEmpty()}"  style="display: flex;">
+                                    <input type="checkbox" th:value="${boisson_chaude}" name="boisson_chaude">
+                                    <li th:text="${boisson_chaude}"></li>
+                                </div>
+                            </ul>
+                        </div>
+                    </ul>
+                    <button type"submit">Supprimer les items de cette catégorie</button>
+                </form>
+                
+                <form th:action="@{/configuration/{url}/addItem/{carteId}(url=${restaurant.url}, carteId=${carteId})}" method="POST" class="carte">
+                    <input type="text" placeholder="item" name="boisson_chaude" class="carte-input">
+                    <button type"submit">Ajouter un items à cette catégorie</button>
+                </form>
+        </div>
+
+        <div style="padding:1em;background: rgba(0, 0, 0, .1); backdrop-filter: blur(5px); margin-left: 5px;">
+            <form th:action="@{/configuration/{url}/deleteItem/{carteId}(url=${restaurant.url}, carteId=${carteId})}"  method="POST" class="carte">
+                    <ul>
+                        <div>
+                            <p>Salades</p>
+                            <ul th:each="salades: ${getSalades}" style="display:flex; list-style:none">
+                                <div th:if="${!salades.isEmpty()}"  style="display: flex;">
+                                    <input type="checkbox" th:value="${salades}" name="salades/entrées">
+                                    <li th:text="${salades}"></li>
+                                </div>
+                            </ul>
+                        </div>
+                    </ul>
+                    <button type"submit">Supprimer les items de cette catégorie</button>
+                </form>
+                <form th:action="@{/configuration/{url}/addItem/{carteId}(url=${restaurant.url}, carteId=${carteId})}" method="POST" class="carte">
+                    <input type="text" placeholder="item" name="salades/entrées" class="carte-input">
+                    <button type"submit">Ajouter un items à cette catégorie</button>
+                </form>
+        </div>
+        
+        <div style="padding:1em;background: rgba(0, 0, 0, .1); backdrop-filter: blur(5px); margin-left: 5px;">
+            <form th:action="@{/configuration/{url}/deleteItem/{carteId}(url=${restaurant.url}, carteId=${carteId})}"  method="POST" class="carte">
+                    <ul style="list-style:none">
+                        <div>
+                            <p>Plats</p>
+                            <ul th:each="plats: ${getPlats}" style="display:flex; list-style:none">
+                                <div th:if="${!plats.isEmpty()}"  style="display: flex;">
+                                    <input type="checkbox" th:value="${plats}" name="plats">
+                                    <li th:text="${plats}"></li>
+                                </div>
+                            </ul>
+                        </div>
+                    </ul>
+                    <button type"submit">Supprimer les items de cette catégorie</button>
+                </form>
+                <form th:action="@{/configuration/{url}/addItem/{carteId}(url=${restaurant.url}, carteId=${carteId})}" method="POST" class="carte">
+                    <input type="text" placeholder="item" name="plats" class="carte-input">
+                    <button type"submit">Ajouter un items à cette catégorie</button>
+                </form>
+        </div>
+    </div>
+    <div style="display: flex; align-items:center;padding:1em">
+        <div th:style="'background-color: ' + ${restaurant.getComplement().getButton_ajout_menu()} + '; display: flex; padding: 1em 2em;border-radius:8px;margin: .5em 0; gap: 1em'">
+            <p>Menu</p>
+            <span th:text="'(' + ${getMenu.size()} + ')'"></span>
+        </div>
+    </div>
+    <ul th:style="'padding:1em'" th:each="menu: ${getMenu}">
+            <div style="display:flex; align-items:center;">
+                <form th:action="@{/configuration/{url}/deleteMenu/{menu_id}(url=${restaurant.url}, menu_id=${menu.getId()})}" method="POST">
+                    <li th:text="'Titre du menu  : ' + ${menu.getName()}"></li>
+                    <li th:text="'Description du menu  : ' + ${menu.getDescription()}"></li>
+                    <li th:text="'id du menu  : ' + ${menu.getId()}"></li>
+                    <button type="submit" th:style="'background-color:' + ${restaurant.getComplement().getButton_ajout_menu()} + '; padding:1em;border-radius:8px;border:none;outline:none;cursor:pointer;color:mintcream;margin-top:.3em'">Supprimer ce menu</button>
+                </form>
+                <form th:action="@{/configuration/{url}/updateMenu/{menu_id}(url=${restaurant.url}, menu_id=${menu.getId()})}" method="POST">
+                    <li style="overflow:hidden;visibility:hidden">e</li>
+                    <li style="overflow:hidden;visibility:hidden">e</li>
+                    <li style="overflow:hidden;visibility:hidden">e</li>
+                    <button type="submit" th:style="'background-color:' + ${restaurant.getComplement().getButton_ajout_menu()} + '; padding:1em;border-radius:8px;border:none;outline:none;cursor:pointer;color:mintcream;margin-top:.3em'">Modifier ce menu</button>
+                </form>
+            </div>
+        </ul>
+    <form th:action="@{/configuration/{url}/addMenu/{carteId}(url=${restaurant.url}, carteId=${carteId})}" method="POST" class="form_add_menu" style="padding:1em">
+        <input type="text" placeholder="nom" name="name">
+        <input type="text" placeholder="description" name="description">
+        <button type="submit" th:style="'background-color:' + ${restaurant.getComplement().getButton_ajout_menu()} + '; padding:1em;border-radius:8px;border:none;outline:none;cursor:pointer;color:mintcream;'">Ajouter un Menu</button>
+    </form>
+
+    <div style="display: flex; align-items:center; gap: 9px;padding:1em">
+        <div th:style="'background-color: ' + ${restaurant.getComplement().getButton_ajout_plat()} + '; display: flex; padding: 1em 2em;border-radius:8px;margin: .5em 0; gap: 1em'">
+            <p>Liste de plats</p>
+        </div>
+    </div>
+    <ul th:each="menu: ${getMenu}" style="padding:1em">
+        <h2 th:text="'Menu ' + ${menu.getName()}"></h2>
+            <h3 th:text="'Ce menu contient : ' + ${menu.getMenuPlats().getSize()} + ' plat'"></h3>
+
+            <form th:action="@{/configuration/{url}/deletePlatToMenu/{menu_id}(url=${restaurant.url}, menu_id=${menu.getId()})}" method="POST" style="display: flex;justify-content:space-between;">
+                <ul th:each="plat: ${menu.getMenuPlats()}" style="list-style:none;list-style: none;display: flex;align-items: flex-start; margin-top:2em">
+                   <div style="margin-top:1em; margin-bottom:1em">
+                        <li><img th:src="${plat.getPlat().getImage()}" alt="Image du restaurant" style="width:100px; height:100px;"></li>
+                        <li th:text="${plat.getPlat().getPlatName()}"></li>
+                        <li th:text="${plat.getPlat().getDescription()}"></li>
+                        <li th:text="${plat.getPlat().getIngredients()}"></li>
+                        <li th:text="${plat.getPlat().getPrix()}"></li>
+                        <input type="hidden" th:value="${plat.getPlat().getId()}" name="plat_id">
+                        <button type="submit" th:style="'background-color:' + ${restaurant.getComplement().getButton_ajout_plat()} + '; padding:1em;border-radius:8px;border:none;outline:none;cursor:pointer;color:mintcream;margin-top:.6em'" th:text="'Supprimer ce plat'"></button>
+                   </div>
+                </ul>
+            </form>
+        
+            <h4>Liste des plats que vous pouvez ajouter au menu</h4>
+            <form th:action="@{/configuration/{url}/addPlatToMenu/{menu_id}(url=${restaurant.url}, menu_id=${menu.getId()})}" method="POST">
+                <div th:each="plat: ${plats}">
+                    <input type="checkbox" name="plats" th:value="${plat.getId()}" th:text="${plat.getPlatName()}"/>
+                </div>
+                <button type="submit" th:style="'background-color:' + ${restaurant.getComplement().getButton_ajout_plat()} + '; padding:1em;border-radius:8px;border:none;outline:none;cursor:pointer;color:mintcream;margin-top:.6em;'" th:text="'Ajouter les plats coché au menu ' + ${menu.getName()}"></a>
+            </form>
+    </ul>
+
+    <div style="padding: 1em; display: flex; flex-direction:column; flex-wrap: wrap; gap:1em; margin-right: 1em; margin-top: .5em">
+        <h4>Liste des commentaires du restaurant</h4>
+        <div th:each="rating: ${ratings}" class="ratings">
+            <div th:each="r: ${rating}">
+                <div th:text="${r.getName()}"></div>
+                <div th:text="${r.getEmail()}"></div>
+                <div th:text="${r.getDate()}"></div>
+                <div th:text="${r.getCommentaire()}"></div>
+                <div th:if="${r.getNote() == '1'}">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                </div>
+                <div th:if="${r.getNote() == '2'}">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                </div>
+                <div th:if="${r.getNote() == '3'}">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                </div>
+                
+                <div th:if="${r.getNote() == '4'}">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                </div>
+                
+                <div th:if="${r.getNote() == '5'}">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                    <img th:src="@{/images/etoile.png}" height="20" width"20">
+                </div>
+            </div>
+        </div>
+</div>
+</br></br>
+</body>
+</html>

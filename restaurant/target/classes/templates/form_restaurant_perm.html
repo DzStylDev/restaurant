@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Page de configuration</title>
+    <link rel = "stylesheet" th:href="@{/css/configuration_restaurant.css}" />
+</head>
+<body>
+    <!--<h1 th:text="'restaurant de ' + ${restaurant_name}"></h1>-->
+    <form th:action="@{/get_configuration_for_restaurant/{url}(url=${url})}" method="POST" class="form_save_config">
+        
+        <label for="password">Mot de passe du restaurant:</label>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <input type="submit" value="Entre dans le tableau de bord de mon restaurant">
+     
+    </form>
+</body>
+</html>

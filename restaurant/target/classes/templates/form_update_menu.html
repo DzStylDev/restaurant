@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Page de restaurant</title>
+    <link rel = "stylesheet" th:href="@{/css/configuration_restaurant.css}" />
+</head>
+<body>
+    <header>
+        <h1>Modification du menu</h1>
+        <!--<a th:href="@{/{url}(url=${restaurant.url})}">Accèder à la page de mon restaurant</a>-->
+    </header>
+    <form th:action="@{/{url}/modified_menu/{id}(url=${restaurant.url}, id=${getMenu.getId()})}" method="POST" class="form_save_config">
+        <p>Nom du menu:</p>
+        <p></p>
+        <input type="text" th:value="${getMenu.getName()}" placeholder="Nom du restaurant" name="restaurant_menu">
+
+        <p>Description du menu:</p>
+        <p></p>
+        <input type="text" th:value="${getMenu.getDescription()}" placeholder="items" name="restaurant_desc">
+    </br>
+        <input type="submit" value="Modifier"> 
+</form>
+</body>
+</html>

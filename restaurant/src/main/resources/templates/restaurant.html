@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Page de restaurant</title>
+    <link rel = "stylesheet" th:href="@{/css/configuration_restaurant.css}" />
+</head>
+<body>
+    <header th:style="'background-color: ' + ${restaurant.color} + ';padding:16px;border-radius:8px;'">
+        <h1>Bienvenue sur la page de ton restaurant</h1>
+        <a th:href="@{/hasPermission/{url}(url=${restaurant.url})}" style="text-decoration:none; color:mintcream;">Accèder à la page de configuration du restaurant</a>
+    </header>
+    <img th:src="${restaurant.image}" alt="Image du restaurant" style="width:500px; height:500px;"> 
+    <p th:text="${restaurant.name}"></p>
+    <!--<p>Mot de passe du restaurant: <span th:text="${restaurant.password}"></span></p>-->
+    <p th:text="${restaurant.address}"></p>
+    <p th:text="${restaurant.contact}">Nous contacter</p>
+    <p th:text="${restaurant.tel}">06.25.36.21.25</p>
+
+    <ul style="
+            display: flex;
+            justify-content: space-between;
+            width: 16%;
+            text-decoration: none;
+            color: mintcream;
+            margin: 1em 0"
+        >
+            <li><a class="link" th:href="${restaurant.getComplement().link1}">Lien 1</a></li>
+            <li><a class="link" th:href="${restaurant.getComplement().link2}">Lien 2</a></li>
+        </ul>
+    
+   <div style="display: flex; gap: 3em">
+        <div style="display:flex">
+            <a th:href="@{/restaurant_carte/{url}(url=${restaurant.url})}" th:style="'background-color: ' + ${restaurant.getComplement().getButton_ajout_menu()} + '; display: flex; align-items:center; gap: 9px;text-decoration:none;padding: 1em 2em;border-radius:8px;color:mintcream;font-size: .8em'">Afficher la carte du restaurant</a>
+        </div>
+        
+        <div style="display: flex">
+            <a th:href="@{/restaurant_menus/{url}(url=${restaurant.url})}" th:style="'background-color: ' + ${restaurant.getComplement().getButton_ajout_plat()} + '; display: flex; align-items:center; gap: 9px;text-decoration:none;padding: 1em 2em;border-radius:8px;color:mintcream;font-size: .8em'">Afficher les menus du restaurant</a>
+        </div>
+   </div>
+
+    <form th:action="@{/{url}/addComment(url=${restaurant.url})}" method="POST" enctype="multipart/form-data" class="carte">
+
+        <div style="display:flex;flex-direction:column;">
+            <label for="commentaire">Commentaire:</label>
+            <input type="commentaire" id="commentaire" name="commentaire" class="carte-input"><br><br>
+        </div>
+
+        <div style="display:flex;flex-direction:column;">
+            <label for="date">Date auquel le commentaire à était poster</label>
+            <input type="date" id="date" name="date" class="carte-input"><br><br>
+        </div>
+
+        <div style="display:flex;flex-direction:column;">
+            <label for="email">Ton email</label>
+            <input type="text" id="email" name="email" class="carte-input">
+        </div>
+
+        <div style="display:flex;flex-direction:column;">
+            <label for="name">Ton nom</label>
+            <input type="text" id="name" name="name" class="carte-input"><br><br>
+        </div>    
+
+        <div style="display:flex;flex-direction:column;">
+        <label for="note">Note du restaurant:</label>
+            <select id="note" name="note" class="carte-input">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="submit" value="Poster le commentaire" class="carte-input" style="cursor:pointer">
+        </div>
+
+     
+    </form>
+ 
+</body>
+</html>
